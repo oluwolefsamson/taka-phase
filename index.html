@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TAKA PRO — Phase 1–3 Feature Documentation</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #1a1a1a;
+    background: #fff;
+  }
+
+  /* ── Cover Page ── */
+  .cover {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #1a0005 0%, #3d000d 40%, #6b0018 100%);
+    color: #fff;
+    text-align: center;
+    padding: 60px;
+    page-break-after: always;
+  }
+  .cover-logo {
+    width: 80px; height: 80px;
+    background: #E5001A;
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 32px;
+    box-shadow: 0 8px 32px rgba(229,0,26,0.5);
+  }
+  .cover-logo span { font-size: 28px; font-weight: 900; color: #fff; letter-spacing: -1px; }
+  .cover h1 { font-size: 42px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+  .cover h1 span { color: #FF6B8A; }
+  .cover .subtitle { font-size: 18px; color: rgba(255,255,255,0.7); margin-bottom: 48px; }
+  .cover-divider { width: 60px; height: 3px; background: #E5001A; margin: 0 auto 48px; border-radius: 2px; }
+  .cover-meta { display: flex; gap: 48px; }
+  .cover-meta-item { text-align: center; }
+  .cover-meta-item .val { font-size: 32px; font-weight: 800; color: #FF6B8A; }
+  .cover-meta-item .lbl { font-size: 12px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+  .cover-footer { position: absolute; bottom: 32px; font-size: 11px; color: rgba(255,255,255,0.3); }
+  .cover-footer span { color: #E5001A; }
+
+  /* ── Layout ── */
+  .page { padding: 48px 52px; max-width: 100%; }
+
+  /* ── Phase Header ── */
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid #E5001A;
+    page-break-before: always;
+  }
+  .phase-badge {
+    background: #E5001A;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .phase-header h2 { font-size: 22px; font-weight: 800; color: #1a0005; }
+  .phase-header .phase-sub { font-size: 13px; color: #888; margin-top: 2px; }
+
+  /* ── Section ── */
+  h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a0005;
+    margin: 28px 0 12px;
+    padding-left: 10px;
+    border-left: 3px solid #E5001A;
+  }
+  h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+    margin: 18px 0 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  h4::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: #E5001A;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── Screen Card ── */
+  .screen-card {
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    page-break-inside: avoid;
+  }
+  .screen-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .screen-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a0005;
+  }
+  .screen-tag {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .tag-screen { background: #FEE2E2; color: #991B1B; }
+  .tag-component { background: #DBEAFE; color: #1E40AF; }
+  .tag-mock { background: #D1FAE5; color: #065F46; }
+  .tag-store { background: #EDE9FE; color: #5B21B6; }
+  .tag-tool { background: #FEF9C3; color: #78350F; }
+
+  .screen-card ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .screen-card ul li {
+    font-size: 12px;
+    color: #444;
+    padding-left: 14px;
+    position: relative;
+  }
+  .screen-card ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: #ccc;
+    font-size: 10px;
+  }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px;
+    font-size: 12px;
+    page-break-inside: avoid;
+  }
+  th {
+    background: #1a0005;
+    color: #fff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #fafafa; }
+  td code {
+    background: #FEE2E2;
+    color: #991B1B;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: 'Consolas', monospace;
+  }
+
+  /* ── Stats Row ── */
+  .stats-row {
+    display: flex;
+    gap: 12px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+  .stat-pill {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: 8px;
+    padding: 10px 16px;
+    text-align: center;
+    flex: 1;
+    min-width: 100px;
+  }
+  .stat-pill .sv { font-size: 20px; font-weight: 800; color: #E5001A; }
+  .stat-pill .sl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+  /* ── TOC ── */
+  .toc {
+    page-break-after: always;
+    padding: 48px 52px;
+  }
+  .toc h2 { font-size: 22px; font-weight: 800; color: #1a0005; margin-bottom: 24px; }
+  .toc-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee;
+    gap: 12px;
+  }
+  .toc-item .toc-num { font-size: 11px; color: #E5001A; font-weight: 700; width: 24px; flex-shrink: 0; }
+  .toc-item .toc-label { font-size: 13px; color: #333; flex: 1; }
+  .toc-item .toc-count { font-size: 11px; color: #aaa; }
+
+  /* ── Summary page ── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .summary-card {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 18px;
+    page-break-inside: avoid;
+  }
+  .summary-card .sc-phase { font-size: 10px; font-weight: 700; color: #E5001A; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .summary-card .sc-title { font-size: 15px; font-weight: 800; color: #1a0005; margin-bottom: 12px; }
+  .summary-card ul { list-style: none; padding: 0; }
+  .summary-card ul li { font-size: 11px; color: #555; padding: 3px 0; padding-left: 12px; position: relative; }
+  .summary-card ul li::before { content: '✓'; position: absolute; left: 0; color: #E5001A; font-size: 9px; top: 4px; }
+
+  .info-box {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 12px;
+    color: #7F1D1D;
+  }
+  .info-box strong { color: #991B1B; }
+
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .cover { height: 100vh; }
+    .page-break { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ COVER ═══════════════════════════════ -->
+<div class="cover">
+  <div class="cover-logo"><span>T</span></div>
+  <h1>TAKA <span>PRO</span></h1>
+  <div class="subtitle">Fintech + MLM Networker Banking App — Uverus Technologies / Globallee</div>
+  <div class="cover-divider"></div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><div class="val">3</div><div class="lbl">Phases Built</div></div>
+    <div class="cover-meta-item"><div class="val">52</div><div class="lbl">Source Files</div></div>
+    <div class="cover-meta-item"><div class="val">26</div><div class="lbl">Screens</div></div>
+    <div class="cover-meta-item"><div class="val">0</div><div class="lbl">TS / Lint Errors</div></div>
+  </div>
+  <div class="cover-footer">React Native · Expo SDK 56 · TypeScript · <span>TAKA PRO v1.0</span> · June 2026</div>
+</div>
+
+<!-- ═══════════════════════════════ TOC ═══════════════════════════════ -->
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <div class="toc-item"><span class="toc-num">01</span><span class="toc-label">Technology Stack & Architecture</span><span class="toc-count">Foundation</span></div>
+  <div class="toc-item"><span class="toc-num">02</span><span class="toc-label">Design System & Shared Components</span><span class="toc-count">6 components</span></div>
+  <div class="toc-item"><span class="toc-num">03</span><span class="toc-label">Navigation Architecture</span><span class="toc-count">5 stacks · 26 screens</span></div>
+  <div class="toc-item"><span class="toc-num">04</span><span class="toc-label">Phase 1 — Banking Foundation</span><span class="toc-count">Auth · KYC · Wallet</span></div>
+  <div class="toc-item"><span class="toc-num">05</span><span class="toc-label">Phase 2 — Network Intelligence</span><span class="toc-count">MLM · Downline · Commissions</span></div>
+  <div class="toc-item"><span class="toc-num">06</span><span class="toc-label">Phase 3 — Sales & Marketing</span><span class="toc-count">Shop · Cart · POS · Analytics</span></div>
+  <div class="toc-item"><span class="toc-num">07</span><span class="toc-label">State Management (Zustand Stores)</span><span class="toc-count">5 stores</span></div>
+  <div class="toc-item"><span class="toc-num">08</span><span class="toc-label">Mock Data Layer</span><span class="toc-count">4 API modules</span></div>
+  <div class="toc-item"><span class="toc-num">09</span><span class="toc-label">Phase 4 — Roadmap (Upcoming)</span><span class="toc-count">Engagement & Expansion</span></div>
+</div>
+
+<!-- ═══════════════════════════════ FOUNDATION ═══════════════════════════════ -->
+<div class="page">
+  <div class="phase-header" style="page-break-before:avoid; margin-top:0;">
+    <div class="phase-badge">Foundation</div>
+    <div><h2>Technology Stack & Architecture</h2><div class="phase-sub">Core dependencies, tooling, and project configuration</div></div>
+  </div>
+
+  <table>
+    <tr><th>Layer</th><th>Technology</th><th>Version</th></tr>
+    <tr><td>Framework</td><td>React Native (Expo managed workflow)</td><td>0.85.3 / Expo SDK ~56.0.11</td></tr>
+    <tr><td>Language</td><td>TypeScript (strict mode)</td><td>6.x</td></tr>
+    <tr><td>UI Library</td><td>React</td><td>19.2</td></tr>
+    <tr><td>Navigation</td><td>React Navigation — Native Stack + Bottom Tabs</td><td>v7</td></tr>
+    <tr><td>State Management</td><td>Zustand</td><td>v5</td></tr>
+    <tr><td>Icons</td><td>lucide-react-native</td><td>latest</td></tr>
+    <tr><td>Safe Area</td><td>react-native-safe-area-context</td><td>latest</td></tr>
+    <tr><td>Metro Bundler</td><td>expo/metro-config with <code>getDefaultConfig</code></td><td>SDK 56</td></tr>
+    <tr><td>Babel</td><td>babel-preset-expo + module-resolver for <code>@/</code> alias</td><td>—</td></tr>
+    <tr><td>Linting</td><td>ESLint with react-hooks rules (strict)</td><td>—</td></tr>
+    <tr><td>Theme</td><td>Custom token-based <code>useTheme()</code> hook, light + dark mode</td><td>—</td></tr>
+    <tr><td>Folder Structure</td><td>Feature-based: <code>src/features/{auth,kyc,wallet,network,shop,profile}/</code></td><td>—</td></tr>
+  </table>
+
+  <div class="info-box"><strong>All data is mock.</strong> No real backend, API, or payment gateway is integrated. Every screen uses async mock service functions with realistic delays to simulate real API behavior.</div>
+
+  <h3>Design System — Theme Tokens</h3>
+  <table>
+    <tr><th>Token Group</th><th>Values</th></tr>
+    <tr><td>Brand Primary</td><td><code>#E5001A</code> (light) · <code>#FF4D5E</code> (dark) — TAKA brand red</td></tr>
+    <tr><td>Backgrounds</td><td><code>background</code>, <code>surface</code>, <code>surfaceElevated</code></td></tr>
+    <tr><td>Borders</td><td><code>border</code>, <code>borderStrong</code></td></tr>
+    <tr><td>Text</td><td><code>text.primary</code>, <code>text.secondary</code>, <code>text.tertiary</code></td></tr>
+    <tr><td>Semantic Colors</td><td><code>primary</code>, <code>danger</code>, <code>success</code>, <code>warning</code> (each with .default, .subtle, .strong)</td></tr>
+    <tr><td>Spacing</td><td>8-step scale (spacing[1]–spacing[8])</td></tr>
+    <tr><td>Radii</td><td><code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>, <code>full</code></td></tr>
+    <tr><td>Font Sizes</td><td><code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>, <code>3xl</code></td></tr>
+    <tr><td>Shadows</td><td><code>shadows.sm</code>, <code>shadows.md</code>, <code>shadows.lg</code></td></tr>
+  </table>
+
+  <h3>Shared Components</h3>
+  <table>
+    <tr><th>Component</th><th>Description</th></tr>
+    <tr><td><code>Button</code></td><td>Variants: primary / secondary / danger / ghost. Sizes: sm / md / lg. Props: fullWidth, loading, disabled</td></tr>
+    <tr><td><code>Text</code></td><td>Variants: heading1–3, body, bodySmall, label, caption. Props: color, semibold, align, numberOfLines</td></tr>
+    <tr><td><code>Input</code></td><td>Label, placeholder, error message, secureTextEntry, prefix/suffix slot</td></tr>
+    <tr><td><code>Pressable</code></td><td>Branded touchable with reduced-opacity feedback, accessible hit slop</td></tr>
+    <tr><td><code>Screen</code></td><td>SafeArea wrapper with optional <code>scroll</code> prop and configurable edge insets</td></tr>
+    <tr><td><code>ErrorBoundary</code></td><td>Top-level React error boundary with recovery UI</td></tr>
+  </table>
+
+  <h3>Navigation Architecture</h3>
+  <table>
+    <tr><th>Navigator</th><th>Screens</th><th>Notes</th></tr>
+    <tr><td><code>RootNavigator</code></td><td>AuthStack ↔ TabNavigator</td><td>Switches on <code>isAuthenticated</code> from authStore</td></tr>
+    <tr><td><code>AuthStack</code></td><td>Welcome, PhoneEntry, OTPVerification, SponsorCode, ProfileSetup</td><td>5 screens</td></tr>
+    <tr><td><code>TabNavigator</code></td><td>Wallet, Network, Shop, Profile tabs</td><td>Bottom tab bar, platform height-aware</td></tr>
+    <tr><td><code>WalletStack</code></td><td>WalletHome, FundWallet, Transfer, Withdraw, TransactionHistory, TransactionDetail, VirtualCard</td><td>7 screens</td></tr>
+    <tr><td><code>NetworkStack</code></td><td>NetworkHome, Downline, Commissions, Leaderboard, Referral</td><td>5 screens</td></tr>
+    <tr><td><code>ShopStack</code></td><td>ShopHome, ProductDetail, Cart, Checkout, OrderSuccess, OrderHistory, FieldPOS, ContentLibrary, SalesAnalytics</td><td>9 screens</td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════ PHASE 1 ═══════════════════════════════ -->
+<div class="page">
+  <div class="phase-header">
+    <div class="phase-badge">Phase 1</div>
+    <div><h2>Banking Foundation</h2><div class="phase-sub">Authentication · KYC · Wallet · Virtual Card</div></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-pill"><div class="sv">5</div><div class="sl">Auth Screens</div></div>
+    <div class="stat-pill"><div class="sv">3</div><div class="sl">KYC Screens</div></div>
+    <div class="stat-pill"><div class="sv">7</div><div class="sl">Wallet Screens</div></div>
+    <div class="stat-pill"><div class="sv">7</div><div class="sl">Components</div></div>
+    <div class="stat-pill"><div class="sv">12</div><div class="sl">Mock Transactions</div></div>
+  </div>
+
+  <h3>Authentication Flow</h3>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">WelcomeScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Animated TAKA logo entrance — scale spring + opacity fade on mount</li>
+      <li>Two CTAs: "Sign In" (existing users) and "Get Started" (new users)</li>
+      <li>Brand gradient background, tagline display</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">PhoneEntryScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Nigeria flag + +234 country prefix (non-editable)</li>
+      <li>10-digit phone number input with real-time formatting</li>
+      <li>Validation before proceeding — no empty or short numbers allowed</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">OTPVerificationScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>6-cell OTP input — auto-advances to next cell on digit entry</li>
+      <li>Backspace handling — moves back to previous cell</li>
+      <li>60-second resend countdown timer with "Resend Code" re-enable</li>
+      <li>Mock auto-verify on 6-digit completion</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">SponsorCodeScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Referral / sponsor code entry for MLM upline linkage</li>
+      <li>Skip option for users without a referral code</li>
+      <li>Mock code validation with inline error feedback</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">ProfileSetupScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>First name, last name, email address fields</li>
+      <li>All-field validation before submission</li>
+      <li>Completes registration → sets authStore → navigates to wallet home</li>
+    </ul>
+  </div>
+
+  <h3>KYC (Know Your Customer) Flow</h3>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">KYCIntroScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Explains the 3-tier KYC system with limits per tier</li>
+      <li><code>KYCTierBadge</code> component — color-coded badge (Tier 1/2/3)</li>
+      <li><code>KYCStepIndicator</code> component — visual progress through KYC steps</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">KYCBVNScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>11-digit BVN (Bank Verification Number) input</li>
+      <li>Mock NIN (National Identification Number) fallback option</li>
+      <li>Simulated 2-second verification delay with spinner</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">KYCSuccessScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Animated checkmark circle with spring scale animation</li>
+      <li>Displays newly unlocked KYC tier and updated transaction limits</li>
+      <li>CTA to return to wallet home</li>
+    </ul>
+  </div>
+
+  <h3>Wallet Feature</h3>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">WalletHomeScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>User greeting with first name from authStore</li>
+      <li>Notification bell icon in header</li>
+      <li><strong>BalanceCard</strong> — displays ₦287,450.00 with show/hide toggle (animated reveal), account tier badge</li>
+      <li><strong>QuickActionGrid</strong> — 6 tiles: Fund Wallet, Transfer, Withdraw, History, Virtual Card, KYC</li>
+      <li>Recent 5 transactions list with "See all" link to TransactionHistory</li>
+      <li>Each transaction row: icon, description, amount (green credit / red debit), timestamp</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">FundWalletScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Providus Bank account details for bank transfer funding</li>
+      <li>Account number: tap-to-copy with clipboard feedback toast</li>
+      <li>Bank name, account name displayed prominently</li>
+      <li>"I've made the transfer" confirmation → mock balance credit + navigate back</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">TransferScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Recipient phone number or account number input</li>
+      <li>Amount entry with ₦ Naira formatting and comma separators</li>
+      <li>Narration / description field</li>
+      <li>Review confirmation modal before sending</li>
+      <li>Mock 1.5s processing delay with spinner</li>
+      <li>On success: adds debit transaction to walletStore</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">WithdrawScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Saved bank accounts list — select from previously added accounts</li>
+      <li>Add new bank: bank selector (15 Nigerian banks), account number entry</li>
+      <li>Amount entry with available balance validation</li>
+      <li>1% withdrawal fee display, minimum withdrawal ₦500</li>
+      <li>Net payout calculation shown before confirmation</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">TransactionHistoryScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Full paginated transaction list</li>
+      <li>Filter tabs: All / Credit / Debit — managed via <code>useReducer</code></li>
+      <li>Pull-to-refresh with mock reload</li>
+      <li>Search bar — filters by description text</li>
+      <li>Each row tappable → TransactionDetailScreen</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">TransactionDetailScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Full receipt view: type, amount, reference number, counterparty, channel, timestamp</li>
+      <li>Color-coded status badge: success (green) / pending (yellow) / failed (red)</li>
+      <li>Share receipt button (mock action)</li>
+      <li>Transaction channel icon (commission, p2p, airtime, bank_transfer, card, withdrawal)</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">VirtualCardScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li><strong>VirtualCardDisplay</strong> component — animated 3D card flip (front/back)</li>
+      <li>Front: masked card number <code>5399 **** **** 8821</code>, cardholder name, expiry 09/28, Verve logo</li>
+      <li>Back: CVV reveal on tap (masked by default)</li>
+      <li>Freeze / Unfreeze toggle with confirmation dialog</li>
+      <li>Copy card number to clipboard</li>
+    </ul>
+  </div>
+
+  <h3>Phase 1 Mock Data</h3>
+  <table>
+    <tr><th>Data Set</th><th>Details</th></tr>
+    <tr><td>Wallet Balance</td><td>₦287,450.00</td></tr>
+    <tr><td>Transactions</td><td>12 records — commission (×2), p2p transfer (×2), airtime (×2), bank_transfer (×2), card purchase (×2), withdrawal (×2)</td></tr>
+    <tr><td>Virtual Card</td><td>Verve, expires 09/28, masked PAN <code>5399 **** **** 8821</code></td></tr>
+    <tr><td>Nigerian Banks</td><td>15 banks in selector (GTBank, Access, Zenith, UBA, First Bank, etc.)</td></tr>
+    <tr><td>Saved Accounts</td><td>2 pre-saved accounts (GTBank + Access Bank)</td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════ PHASE 2 ═══════════════════════════════ -->
+<div class="page">
+  <div class="phase-header">
+    <div class="phase-badge">Phase 2</div>
+    <div><h2>Network Intelligence</h2><div class="phase-sub">MLM Downline · Commissions · Leaderboard · Referral QR</div></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-pill"><div class="sv">5</div><div class="sl">Screens</div></div>
+    <div class="stat-pill"><div class="sv">4</div><div class="sl">Components</div></div>
+    <div class="stat-pill"><div class="sv">7</div><div class="sl">MLM Ranks</div></div>
+    <div class="stat-pill"><div class="sv">8</div><div class="sl">Direct Recruits</div></div>
+    <div class="stat-pill"><div class="sv">12</div><div class="sl">Commissions</div></div>
+  </div>
+
+  <h3>Network Screens</h3>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">NetworkHomeScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Safe-area header with user greeting and notification bell</li>
+      <li><strong>Rank Card</strong> — current rank (Gold) with color-coded badge, animated progress bar to next rank (Platinum), points display: 3,450 / 5,000</li>
+      <li><strong>4 Stat Tiles</strong> — Total Team Members (34), Monthly Earnings (₦124,500), Leaderboard Rank (#3), Direct Recruits (8)</li>
+      <li><strong>Quick Action Grid</strong> — My Team → Downline, Earnings → Commissions, Rankings → Leaderboard, Refer → Referral</li>
+      <li>Recent 3 commissions preview with "See all earnings" link</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">DownlineScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Full list of 8 direct recruits</li>
+      <li><strong>DownlineMemberCard</strong> — rank badge, active/inactive status dot, team size, monthly earnings, own recruit count</li>
+      <li>Filter tabs: All / Active / Inactive</li>
+      <li>Tap member card → detailed member stats view</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">CommissionsScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Monthly earnings summary card at top</li>
+      <li>Full list of 12 commission records</li>
+      <li><strong>CommissionItem</strong> — type chip (direct / indirect / leadership / rank_bonus), amount in green, date</li>
+      <li>Filter tabs: All / Direct / Indirect / Leadership</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">LeaderboardScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Period toggle: Weekly / Monthly</li>
+      <li>Top 10 distributors ranked by earnings</li>
+      <li>Medal icons for ranks 1–3 (gold / silver / bronze)</li>
+      <li>Current user row highlighted with distinct background (#3 position)</li>
+      <li>Rank change indicator — up/down arrows with delta</li>
+      <li>Fetches leaderboard data if not yet loaded for selected period</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">ReferralScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Referral code display: <strong>TAKA004</strong> in large branded pill</li>
+      <li><strong>Simulated QR Code</strong> — 21×21 grid rendered from a pure bitwise hash function (no random state, no mutable variables — lint-safe)</li>
+      <li>QR finder patterns (3 corner squares) applied via Array.from</li>
+      <li>Copy code to clipboard with feedback</li>
+      <li>Share referral link button (mock)</li>
+      <li>Referral stats: total referred count, cumulative earnings from referrals</li>
+    </ul>
+  </div>
+
+  <h3>Reusable Network Components</h3>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">RankBadge</span><span class="screen-tag tag-component">Component</span></div>
+    <ul>
+      <li>Color-coded pill for all 7 MLM ranks</li>
+      <li>Starter (#9CA3AF) · Bronze (#CD7F32) · Silver (#94A3B8) · Gold (#F59E0B) · Platinum (#6366F1) · Diamond (#06B6D4) · Crown (#EC4899)</li>
+      <li>Exports <code>RANK_COLORS</code> record for use across screens</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">NetworkStatCard</span><span class="screen-tag tag-component">Component</span></div>
+    <ul>
+      <li>Stat tile with icon, label, value, optional trend indicator (up/down with %)</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">DownlineMemberCard</span><span class="screen-tag tag-component">Component</span></div>
+    <ul>
+      <li>Full member row — avatar initial, name, phone, rank badge, activity status, team size, monthly earnings</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">CommissionItem</span><span class="screen-tag tag-component">Component</span></div>
+    <ul>
+      <li>Commission row with type badge, description, amount in green, formatted date</li>
+    </ul>
+  </div>
+
+  <h3>Phase 2 Mock Data</h3>
+  <table>
+    <tr><th>Data Set</th><th>Details</th></tr>
+    <tr><td>Current User Profile</td><td>Gold rank · Referral code TAKA004 · #3 leaderboard · 34-member team · ₦124,500/month</td></tr>
+    <tr><td>Rank Progress</td><td>3,450 / 5,000 points to Platinum</td></tr>
+    <tr><td>Direct Recruits</td><td>8 members — mix of starter, bronze, silver ranks with varying team sizes (1–11 members)</td></tr>
+    <tr><td>Commissions</td><td>12 records across 4 types (direct, indirect, leadership, rank_bonus) spread over past 30 days</td></tr>
+    <tr><td>Weekly Leaderboard</td><td>10 entries — user at #3, range ₦8,000–₦210,000</td></tr>
+    <tr><td>Monthly Leaderboard</td><td>10 entries — user at #3, range ₦32,000–₦890,000</td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════ PHASE 3 ═══════════════════════════════ -->
+<div class="page">
+  <div class="phase-header">
+    <div class="phase-badge">Phase 3</div>
+    <div><h2>Sales & Marketing</h2><div class="phase-sub">Product Shop · Cart · Checkout · Field POS · Content Library · Analytics</div></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-pill"><div class="sv">9</div><div class="sl">Screens</div></div>
+    <div class="stat-pill"><div class="sv">3</div><div class="sl">Components</div></div>
+    <div class="stat-pill"><div class="sv">10</div><div class="sl">Products</div></div>
+    <div class="stat-pill"><div class="sv">3</div><div class="sl">Past Orders</div></div>
+    <div class="stat-pill"><div class="sv">₦287.5k</div><div class="sl">Monthly Revenue</div></div>
+  </div>
+
+  <h3>Shop Screens</h3>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">ShopHomeScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Safe-area header with live cart badge showing total item count</li>
+      <li><strong>Category Filter Tabs</strong> — All / Concentrates / Ready-to-Drink / Sachets / Bundles</li>
+      <li><strong>Featured Products</strong> — horizontal carousel of featured/new items</li>
+      <li>Full product grid filtered by selected category (useMemo)</li>
+      <li><strong>Seller Tools Row</strong> — Field POS, Content Library, Sales Analytics quick-access buttons</li>
+      <li>Tapping a product navigates to ProductDetailScreen</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">ProductDetailScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Large colour-hero image area (unique color swatch per product) with decorative overlay</li>
+      <li>Conditional badges: "NEW" (white on product color) and "% OFF" (danger red)</li>
+      <li>Star rating: 5-star display with filled/empty rendering + review count</li>
+      <li>Price card — current price, original price with strikethrough, savings amount in green</li>
+      <li>Product description paragraph</li>
+      <li><strong>Quantity Selector</strong> — Pressable + Minus/Plus icons, current quantity display</li>
+      <li>Add to Cart button — quantity-aware label with total price (e.g. "Add 3× to Cart — ₦4,500")</li>
+      <li>View Cart shortcut button (appears when cart has items)</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">CartScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>FlatList of cart items using <strong>CartItemRow</strong> — colour swatch, name, unit price, +/− controls, line total</li>
+      <li>Minus icon turns danger-red at quantity=1 (signals removal)</li>
+      <li>Free delivery upsell banner — shows shortfall amount (e.g. "Add ₦3,200 more for free delivery")</li>
+      <li>Order Summary card — subtotal, delivery fee (FREE ≥ ₦10,000 / ₦500 below), total</li>
+      <li>Proceed to Checkout button</li>
+      <li>Empty state: illustration + "Browse Products" CTA</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">CheckoutScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Delivery address text input (minimum 10 characters validation)</li>
+      <li><strong>Payment Method radio buttons</strong> — TAKA Wallet / Debit Card / Bank Transfer</li>
+      <li>Order summary breakdown (items, delivery fee, total)</li>
+      <li>Place Order → calls <code>mockShopApi.placeOrder()</code> → navigates to OrderSuccess via <code>replace</code> (back button skips checkout)</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">OrderSuccessScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Animated scale-in checkmark circle (spring animation on mount)</li>
+      <li>Fade-in receipt card — Order ID, Amount, Estimated Delivery (2 business days)</li>
+      <li>SMS confirmation note with package icon</li>
+      <li>CTAs: View Order History / Continue Shopping</li>
+      <li>Estimated delivery date computed once via <code>useState</code> lazy initializer (lint-safe)</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">OrderHistoryScreen</span><span class="screen-tag tag-screen">Screen</span></div>
+    <ul>
+      <li>Full list of all orders — 3 seeded + any placed in the current session</li>
+      <li><strong>OrderStatusBadge</strong> — color-coded pills: confirmed (blue) / shipped (amber) / delivered (green) / cancelled (red)</li>
+      <li>Order date, item count, total amount per row</li>
+      <li>Tap to expand order items detail list</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">FieldPOSScreen</span><span class="screen-tag tag-screen">Screen</span> <span class="screen-tag tag-tool">Seller Tool</span></div>
+    <ul>
+      <li>Quick-add product grid — top 6 products as tap-to-add tiles</li>
+      <li>Live sale items list managed by <code>useReducer</code> (ADD / INC / DEC / REMOVE / CLEAR actions)</li>
+      <li>Running total displayed prominently</li>
+      <li>"Charge ₦X" button → Alert receipt dialog with itemized list → auto-clears sale on confirm</li>
+      <li>Designed for in-person distributor sales at events / door-to-door</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">ContentLibraryScreen</span><span class="screen-tag tag-screen">Screen</span> <span class="screen-tag tag-tool">Seller Tool</span></div>
+    <ul>
+      <li>8 branded content assets — banners, product images, testimonials, social post templates</li>
+      <li>Category filter: All / Banner / Product / Testimonial / Social</li>
+      <li>Asset cards with type badge, thumbnail color, and download/share mock action</li>
+      <li>Helps distributors access marketing materials for social selling</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">SalesAnalyticsScreen</span><span class="screen-tag tag-screen">Screen</span> <span class="screen-tag tag-tool">Seller Tool</span></div>
+    <ul>
+      <li>Monthly revenue: ₦287,500 with +45% month-on-month growth badge</li>
+      <li>Stat row — Total Orders: 24, Average Order Value: ₦11,979</li>
+      <li><strong>4-Week Bar Chart</strong> — revenue bars with calculated numeric heights, week labels, ₦ value above each bar</li>
+      <li>Top 3 best-selling products ranked by revenue</li>
+    </ul>
+  </div>
+
+  <h3>Reusable Shop Components</h3>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">ProductCard</span><span class="screen-tag tag-component">Component</span></div>
+    <ul>
+      <li>Grid card — colour image swatch, product name, price, original price (strikethrough if discounted)</li>
+      <li>Conditional badges: "NEW", "BESTSELLER", "% OFF"</li>
+      <li>Quick-add button with cart icon</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">CartItemRow</span><span class="screen-tag tag-component">Component</span></div>
+    <ul>
+      <li>Cart line item — 52px colour swatch, product name, unit price, Pressable +/− icon controls, line total</li>
+      <li>Minus icon in danger red when quantity=1 (removal indicator)</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">OrderStatusBadge</span><span class="screen-tag tag-component">Component</span></div>
+    <ul>
+      <li>Pill badge — 4 statuses each with distinct color: confirmed, shipped, delivered, cancelled</li>
+    </ul>
+  </div>
+
+  <h3>Phase 3 Products (Taka Pink Lemonade)</h3>
+  <table>
+    <tr><th>Product</th><th>Category</th><th>Price</th><th>Notes</th></tr>
+    <tr><td>Pink Lemonade Concentrate 500ml</td><td>Concentrate</td><td>₦1,500</td><td>Featured, Bestseller, 4.8★</td></tr>
+    <tr><td>Pink Lemonade Concentrate 1L</td><td>Concentrate</td><td>₦2,800</td><td>Was ₦3,200 — 13% off</td></tr>
+    <tr><td>Pink Lemonade RTD Can 330ml</td><td>Ready-to-Drink</td><td>₦350</td><td>Featured, 4.6★</td></tr>
+    <tr><td>Pink Lemonade RTD Crate (24 cans)</td><td>Ready-to-Drink</td><td>₦7,200</td><td>Was ₦8,400 — Bestseller</td></tr>
+    <tr><td>Pink Lemonade Sachets (10 pcs)</td><td>Sachet</td><td>₦500</td><td>On-the-go / gifting</td></tr>
+    <tr><td>Pink Lemonade Sachet Box (100 pcs)</td><td>Sachet</td><td>₦4,500</td><td>Was ₦5,000 — Reseller bulk</td></tr>
+    <tr><td>Pink Lemonade Gift Box</td><td>Bundle</td><td>₦3,500</td><td>New · 4.9★ — 1L + 4 cans + 10 sachets</td></tr>
+    <tr><td>Starter Distributor Bundle</td><td>Bundle</td><td>₦18,500</td><td>Was ₦21,400 — Bestseller distributor kit</td></tr>
+    <tr><td>Family Party Bundle</td><td>Bundle</td><td>₦9,500</td><td>2× 1L + 24 RTD cans</td></tr>
+    <tr><td>Pink Lemonade RTD Multipack (6)</td><td>Ready-to-Drink</td><td>₦1,900</td><td>Was ₦2,100</td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════ STORES + MOCK ═══════════════════════════════ -->
+<div class="page">
+  <div class="phase-header">
+    <div class="phase-badge">Infrastructure</div>
+    <div><h2>State Management & Mock Data Layer</h2><div class="phase-sub">Zustand stores · Mock API service modules</div></div>
+  </div>
+
+  <h3>Zustand Stores</h3>
+
+  <table>
+    <tr><th>Store</th><th>State Shape</th><th>Key Actions</th></tr>
+    <tr>
+      <td><code>authStore</code></td>
+      <td>user (id, name, phone, email, referralCode), isAuthenticated, kycTier (1/2/3)</td>
+      <td>setUser, setKycTier, logout</td>
+    </tr>
+    <tr>
+      <td><code>walletStore</code></td>
+      <td>balance (₦), virtualCard, bankAccounts[ ], transactions[ ]</td>
+      <td>setBalance, addTransaction, setCard, addBankAccount</td>
+    </tr>
+    <tr>
+      <td><code>networkStore</code></td>
+      <td>stats (NetworkStats), recruits[ ], commissions[ ], weeklyLeaderboard[ ], monthlyLeaderboard[ ], isLoading</td>
+      <td>setStats, setRecruits, setCommissions, setLeaderboard(period, entries), setLoading</td>
+    </tr>
+    <tr>
+      <td><code>cartStore</code></td>
+      <td>items[ ] — { productId, productName, price, imageColor, quantity }</td>
+      <td>addItem, removeItem, updateQuantity(productId, delta), clearCart</td>
+    </tr>
+    <tr>
+      <td><code>shopStore</code></td>
+      <td>orders[ ] (ShopOrder), seeded (boolean)</td>
+      <td>seedOrders(orders), addOrder(order)</td>
+    </tr>
+  </table>
+
+  <h3>Mock API Service Layer</h3>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">mockAuthApi</span><span class="screen-tag tag-mock">Mock API</span></div>
+    <ul>
+      <li><code>sendOTP(phone)</code> — simulates SMS dispatch (1s delay)</li>
+      <li><code>verifyOTP(phone, code)</code> — accepts any 6-digit code (1.5s delay)</li>
+      <li><code>validateSponsorCode(code)</code> — validates against known codes, returns upline name</li>
+      <li><code>registerUser(data)</code> — creates mock user object, returns auth token</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">mockWalletApi</span><span class="screen-tag tag-mock">Mock API</span></div>
+    <ul>
+      <li><code>getBalance()</code> — returns ₦287,450.00</li>
+      <li><code>getTransactions()</code> — returns 12-item transaction array</li>
+      <li><code>getVirtualCard()</code> — returns Verve card object</li>
+      <li><code>getBankAccounts()</code> — returns 2 saved accounts</li>
+      <li><code>transfer(to, amount, narration)</code> — 1.5s delay, returns new debit transaction</li>
+      <li><code>withdraw(bankAccountId, amount)</code> — calculates fee, returns new withdrawal transaction</li>
+      <li><code>fundWallet(amount)</code> — returns new credit transaction</li>
+      <li><code>toggleCardFreeze(cardId)</code> — toggles frozen state</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">mockNetworkApi</span><span class="screen-tag tag-mock">Mock API</span></div>
+    <ul>
+      <li><code>getStats()</code> — returns full NetworkStats object (rank, team, earnings, referralCode)</li>
+      <li><code>getDirectRecruits()</code> — returns 8-member array</li>
+      <li><code>getCommissions()</code> — returns 12-commission array</li>
+      <li><code>getLeaderboard(period)</code> — returns weekly or monthly 10-entry array</li>
+    </ul>
+  </div>
+
+  <div class="screen-card">
+    <div class="screen-card-header"><span class="screen-name">mockShopApi</span><span class="screen-tag tag-mock">Mock API</span></div>
+    <ul>
+      <li><code>getProducts()</code> — returns all 10 products</li>
+      <li><code>getProductById(id)</code> — returns single product or null</li>
+      <li><code>getOrders()</code> — returns seeded orders + session-placed orders</li>
+      <li><code>placeOrder(items, address, paymentMethod)</code> — generates new order with auto-incrementing ID, free delivery on orders ≥ ₦10,000</li>
+      <li><code>getSalesStats()</code> — returns ₦287,500 monthly stats with weekly breakdown</li>
+      <li><code>getContentAssets()</code> — returns 8 branded assets</li>
+    </ul>
+  </div>
+
+  <h3>TypeScript Types</h3>
+  <table>
+    <tr><th>Type</th><th>Phase</th><th>Key Fields</th></tr>
+    <tr><td><code>User</code></td><td>1</td><td>id, name, phone, email, referralCode, kycTier</td></tr>
+    <tr><td><code>Transaction</code></td><td>1</td><td>id, type, amount, description, timestamp, status, reference, counterparty, channel</td></tr>
+    <tr><td><code>VirtualCard</code></td><td>1</td><td>id, maskedPan, expiry, cvv, network, isFrozen, cardHolder</td></tr>
+    <tr><td><code>BankAccount</code></td><td>1</td><td>id, bankName, accountNumber, accountName, bankCode</td></tr>
+    <tr><td><code>MLMRank</code></td><td>2</td><td>Union: starter | bronze | silver | gold | platinum | diamond | crown</td></tr>
+    <tr><td><code>NetworkMember</code></td><td>2</td><td>id, name, phone, rank, kycTier, joinedAt, isActive, directRecruits, teamSize, monthlyEarnings, level</td></tr>
+    <tr><td><code>NetworkStats</code></td><td>2</td><td>rank, rankPoints, nextRankPoints, teamSize, directRecruits, monthlyEarnings, totalEarnings, leaderboardRank, referralCode</td></tr>
+    <tr><td><code>NetworkCommission</code></td><td>2</td><td>id, type, amount, description, timestamp, fromMember</td></tr>
+    <tr><td><code>LeaderboardEntry</code></td><td>2</td><td>rank, userId, name, earnings, rankChange, isCurrentUser</td></tr>
+    <tr><td><code>ShopProduct</code></td><td>3</td><td>id, name, category, description, price, originalPrice?, unit, inStock, isFeatured, isNew, isBestseller, rating, reviewCount, imageColor</td></tr>
+    <tr><td><code>CartItem</code></td><td>3</td><td>productId, productName, price, imageColor, quantity</td></tr>
+    <tr><td><code>ShopOrder</code></td><td>3</td><td>id, items, total, deliveryFee, status, placedAt, deliveryAddress, paymentMethod</td></tr>
+    <tr><td><code>ContentAsset</code></td><td>3</td><td>id, type, title, description, thumbnailColor</td></tr>
+    <tr><td><code>SalesStats</code></td><td>3</td><td>monthlyRevenue, totalOrders, averageOrderValue, growthPercent, weeklyData[], topProducts[]</td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════ PHASE 4 ROADMAP ═══════════════════════════════ -->
+<div class="page">
+  <div class="phase-header">
+    <div class="phase-badge" style="background:#555;">Phase 4</div>
+    <div><h2>Engagement & Expansion — Roadmap</h2><div class="phase-sub">Pending sign-off on Phase 3 · Super-App & Growth features</div></div>
+  </div>
+
+  <div class="info-box" style="background:#F0FDF4; border-color:#BBF7D0; color:#14532D;">
+    <strong>Status:</strong> Phase 3 is 100% complete (0 TypeScript errors, 0 ESLint errors). Phase 4 begins on your approval.
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="sc-phase">Feature 4.1</div>
+      <div class="sc-title">Loyalty & Gamification</div>
+      <ul>
+        <li>TAKA Points earn + burn system</li>
+        <li>Milestone reward badges</li>
+        <li>Weekly challenges with point bonuses</li>
+        <li>Streak tracker (daily app opens)</li>
+        <li>Points redemption store</li>
+      </ul>
+    </div>
+    <div class="summary-card">
+      <div class="sc-phase">Feature 4.2</div>
+      <div class="sc-title">Training Academy</div>
+      <ul>
+        <li>Video lesson modules (mock)</li>
+        <li>Quiz completion tracking</li>
+        <li>Certificate issuance on completion</li>
+        <li>Sales tips library</li>
+        <li>Rank-gated premium content</li>
+      </ul>
+    </div>
+    <div class="summary-card">
+      <div class="sc-phase">Feature 4.3</div>
+      <div class="sc-title">Bill Payments</div>
+      <ul>
+        <li>Airtime top-up (all Nigerian networks)</li>
+        <li>Data bundle purchase</li>
+        <li>Electricity bill payment</li>
+        <li>Cable TV subscription (DSTV/GOtv)</li>
+        <li>Transaction history integration</li>
+      </ul>
+    </div>
+    <div class="summary-card">
+      <div class="sc-phase">Feature 4.4</div>
+      <div class="sc-title">Multi-Currency Wallet</div>
+      <ul>
+        <li>USD, GHS, KES sub-wallets</li>
+        <li>Live FX rate display (mock)</li>
+        <li>Cross-currency conversion</li>
+        <li>International transfer simulation</li>
+        <li>Currency selector on send</li>
+      </ul>
+    </div>
+    <div class="summary-card">
+      <div class="sc-phase">Feature 4.5</div>
+      <div class="sc-title">Physical Card Issuance</div>
+      <ul>
+        <li>Card request application flow</li>
+        <li>Delivery address + PIN setup</li>
+        <li>Card status tracker (processing → shipped → active)</li>
+        <li>Card controls (spend limits, online toggle)</li>
+      </ul>
+    </div>
+    <div class="summary-card">
+      <div class="sc-phase">Feature 4.6</div>
+      <div class="sc-title">In-App Live Chat</div>
+      <ul>
+        <li>Support chat UI (mock agent replies)</li>
+        <li>Chat history persistence</li>
+        <li>Ticket number generation</li>
+        <li>FAQ quick-reply suggestions</li>
+        <li>Escalation to human (mock)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Summary table -->
+  <h3 style="margin-top:32px;">Full Project Summary</h3>
+  <table>
+    <tr><th>Metric</th><th>Count</th></tr>
+    <tr><td>Total TypeScript / TSX source files</td><td>52</td></tr>
+    <tr><td>Total screens</td><td>26 (5 auth + 3 KYC + 7 wallet + 5 network + 9 shop + 1 profile)</td></tr>
+    <tr><td>Reusable components</td><td>13 (6 shared + 3 wallet + 4 network + 3 shop)</td></tr>
+    <tr><td>Navigation stacks</td><td>5 (Auth, Wallet, Network, Shop + Tab root)</td></tr>
+    <tr><td>Zustand stores</td><td>5 (auth, wallet, network, cart, shop)</td></tr>
+    <tr><td>Mock API modules</td><td>4 (auth, wallet, network, shop)</td></tr>
+    <tr><td>TypeScript errors</td><td>0</td></tr>
+    <tr><td>ESLint errors</td><td>0</td></tr>
+    <tr><td>Real backend calls</td><td>0 — fully mock</td></tr>
+    <tr><td>Platform support</td><td>iOS + Android (Expo managed)</td></tr>
+    <tr><td>Light / Dark mode</td><td>Yes — token-based theme, auto-detects system preference</td></tr>
+  </table>
+
+  <div style="margin-top:48px; padding-top:24px; border-top:2px solid #eee; text-align:center; color:#aaa; font-size:11px;">
+    TAKA PRO — Uverus Technologies / Globallee &nbsp;·&nbsp; Built with React Native + Expo SDK 56 &nbsp;·&nbsp; June 2026<br/>
+    <span style="color:#E5001A; font-weight:700;">UI Prototype — All data is mock. No real transactions are processed.</span>
+  </div>
+</div>
+
+</body>
+</html>
